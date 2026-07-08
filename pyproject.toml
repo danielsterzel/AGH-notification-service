@@ -24,6 +24,8 @@ dependencies = [
     "pydantic==2.13.4",
     "pydantic-core==2.46.4",
     "pydantic-settings>=2.14.2",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
     "python-dateutil==2.9.0.post0",
     "pytokens==0.4.1",
     "requests==2.34.2",
@@ -36,8 +38,13 @@ dependencies = [
     "werkzeug==3.1.8",
 ]
 
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
 [dependency-groups]
 dev = [
     "boto3-stubs[sqs]>=1.43.39",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
     "ruff>=0.15.20",
 ]

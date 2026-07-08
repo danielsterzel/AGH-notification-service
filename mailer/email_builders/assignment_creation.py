@@ -1,7 +1,7 @@
-
 from mailer.models import Email
 from notification.models import NotificationEvent
 from mailer.renderer import render_template
+
 
 class AssignmentCreationBuilder:
     def build(self, notification: NotificationEvent) -> Email:

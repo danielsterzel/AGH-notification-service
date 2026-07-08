@@ -1,7 +1,7 @@
-
 from mailer.models import Email
 from mailer.renderer import render_template
 from notification.models import NotificationEvent
+
 
 class AssignmentDeadlineUpdateBuilder:
     def build(self, notification: NotificationEvent) -> Email:
@@ -14,8 +14,8 @@ class AssignmentDeadlineUpdateBuilder:
             course_title=payload.course_title,
             professor_name=payload.professor_name,
             assignment_new_deadline=payload.assignment_new_deadline,
-            assignment_url_path=payload.assignment_url_path
-            )
+            assignment_url_path=payload.assignment_url_path,
+        )
 
         payload = notification.payload
 

@@ -1,4 +1,3 @@
-
 from notification.models import NotificationEventType
 from mailer.email_builders.base import EmailBuilder
 from mailer.email_builders.assignment_creation import AssignmentCreationBuilder

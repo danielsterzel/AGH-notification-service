@@ -1,8 +1,9 @@
-
 from aiohttp import web
+
 
 async def health(request):
     return web.Response(text="ok")
+
 
 async def start_health_server():
     app = web.Application()

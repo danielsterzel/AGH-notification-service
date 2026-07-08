@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from pydantic import BaseModel, Field, HttpUrl, field_validator
@@ -23,7 +22,7 @@ class BasePayload(BaseModel):
     course_title: str = Field(..., min_length=3, max_length=75)
 
     assignment_url_path: Optional[HttpUrl] = Field(None)
-    
+
     # @field_validator("assignment_url_path")
     # @classmethod
     # def is_internal_domain(cls, v):
@@ -66,7 +65,15 @@ class NotificationEvent(BaseModel):
     event_id: UUID = Field(...)
 
     course_id: str = Field(...)
+
     user_ids: List[str] = Field(..., min_length=1)
+
+    @field_validator("user_ids")
+    @classmethod
+    def validate_user_ids(cls, v):
+        if not v or any(not uid.strip() for uid in v):
+            raise ValueError("User ids must be non-empty strings")
+        return v
 
     payload: Union[
         GradeReturnPayload,
