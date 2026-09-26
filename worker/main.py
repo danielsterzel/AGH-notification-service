@@ -88,12 +88,18 @@ async def main():
     try:
         pool = await get_pool()
 
-        async with session.client(
-            "sqs",
-            region_name=settings.aws_region,
-            aws_access_key_id=settings.aws_access_key_id,
-            aws_secret_access_key=settings.aws_secret_access_key,
-        ) as sqs:
+        sqs_client_kwargs = {
+            "region_name": settings.aws_region,
+        }
+        if settings.aws_access_key_id and settings.aws_secret_access_key:
+            sqs_client_kwargs.update(
+                {
+                    "aws_access_key_id": settings.aws_access_key_id,
+                    "aws_secret_access_key": settings.aws_secret_access_key,
+                }
+            )
+
+        async with session.client("sqs", **sqs_client_kwargs) as sqs:
             sqs: SQSClient
             while True:
                 resp = await sqs.receive_message(

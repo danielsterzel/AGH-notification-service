@@ -18,6 +18,6 @@ class AssignmentCreationBuilder:
         )
 
         return Email(
-            subject=f"New Assignment dropped 😭🤧🤧🥀\n for course: {notification.payload.course_title}",
+            subject=f"New Assignment dropped 😭🤧🤧🥀 for course: {notification.payload.course_title}",
             html=html,
         )

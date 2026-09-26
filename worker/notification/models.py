@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-from pydantic import BaseModel, Field, HttpUrl, field_validator
+from pydantic import BaseModel, Field, HttpUrl, field_validator, ConfigDict
 from pydantic.alias_generators import to_camel
-from typing import List, Union, Literal, Optional
+from typing import Union, Literal, Optional
 from enum import Enum
 from uuid import UUID
 
@@ -17,7 +17,13 @@ class NotificationEventType(str, Enum):
 
 
 class BasePayload(BaseModel):
-    model_config = {"alias_generator": to_camel, "extra": "forbid"}
+    model_config = ConfigDict(
+        validate_by_alias=True,
+        validate_by_name=True,
+        str_strip_whitespace=True,
+        extra="forbid",
+        alias_generator=to_camel,
+    )
     assignment_title: str = Field(..., min_length=3, max_length=50)
     course_title: str = Field(..., min_length=3, max_length=75)
 
@@ -57,16 +63,19 @@ class AssignmentDeadlineApproachPayload(BasePayload):
 
 # issued by sprawdzarka-frontend on SQS
 class NotificationEvent(BaseModel):
-    model_config = {
-        "alias_generator": to_camel,
-        "str_strip_whitespace": True,
-        "extra": "forbid",
-    }
+    model_config = ConfigDict(
+        validate_by_alias=True,
+        validate_by_name=True,
+        str_strip_whitespace=True,
+        extra="forbid",
+        alias_generator=to_camel,
+    )
+
     event_id: UUID = Field(...)
 
     course_id: str = Field(...)
 
-    user_ids: List[str] = Field(..., min_length=1)
+    user_ids: list[str] = Field(..., min_length=1)
 
     @field_validator("user_ids")
     @classmethod
